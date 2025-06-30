@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const supabase = require('../supabase');  // Supabase veritabanı bağlantısı
 
 /**
@@ -54,15 +53,8 @@ const login = async (req, res) => {
         return res.status(401).json({ message: 'Geçersiz şifre' });
     }
 
-    // JWT Token oluşturma
-    const token = jwt.sign(
-        { userId: data.id, role: data.role },  // Token içinde kullanıcı bilgilerini saklarız
-        process.env.JWT_SECRET,  // Secret key (environment variable)
-        { expiresIn: '1h' }  // Token süresi (1 saat)
-    );
-
     // Başarılı giriş
-    res.status(200).json({ message: 'Login successful', token });
+    res.status(200).json({ message: 'Login successful' });
 };
 
 /**
