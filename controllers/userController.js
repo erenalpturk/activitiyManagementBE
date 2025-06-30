@@ -57,7 +57,7 @@ const getAllUsers = async (req, res) => {
  *             required:
  *               - name
  *               - username
- *               - password_hash
+ *               - password
  *               - role
  *             properties:
  *               name:
@@ -70,7 +70,7 @@ const getAllUsers = async (req, res) => {
  *               username:
  *                 type: string
  *                 description: Kullanıcı kullanıcı adı
- *               password_hash:
+ *               password:
  *                 type: string
  *                 description: Şifrelenmiş parola
  *               role:
@@ -93,7 +93,7 @@ const getAllUsers = async (req, res) => {
  */
 // Yeni kullanıcı oluştur
 const createUser = async (req, res) => {
-    const { name, email, username, password_hash, role } = req.body;
+    const { name, email, username, password, role } = req.body;
 
     try {
         const { data, error } = await supabase
@@ -103,7 +103,7 @@ const createUser = async (req, res) => {
                     name: name,
                     email: email,
                     username: username,
-                    password_hash: password_hash,  // Parola burada hash'lenmiş olmalı
+                    password: password,  // Parola düz metin olarak kaydediliyor
                     role: role
                 }
             ])
@@ -151,7 +151,7 @@ const createUser = async (req, res) => {
  *               username:
  *                 type: string
  *                 description: Kullanıcı kullanıcı adı
- *               password_hash:
+ *               password:
  *                 type: string
  *                 description: Şifrelenmiş parola
  *               role:
@@ -175,13 +175,13 @@ const createUser = async (req, res) => {
 // Kullanıcıyı güncelle
 const updateUser = async (req, res) => {
     const { id } = req.params;
-    const { name, email, username, password_hash, role } = req.body;
+    const { name, email, username, password, role } = req.body;
 
     try {
         const { data, error } = await supabase
             .from('users')
             .update([
-                { name: name, email: email, username: username, password_hash: password_hash, role: role }
+                { name: name, email: email, username: username, password: password, role: role }
             ])
             .eq('id', id);  // id'ye göre güncelleme yap
 

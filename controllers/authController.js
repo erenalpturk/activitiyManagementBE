@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const supabase = require('../supabase');  // Supabase veritabanı bağlantısı
 
 /**
@@ -50,10 +49,8 @@ const login = async (req, res) => {
         return res.status(401).json({ message: 'Kullanıcı bulunamadı' });
     }
 
-    // Parolayı doğrulama (password_hash ile karşılaştırma)
-    const validPassword = await bcrypt.compare(password, data.password_hash);
-    console.log(validPassword);
-    if (!validPassword) {
+    // Parolayı düz metin olarak karşılaştır
+    if (password !== data.password) {
         return res.status(401).json({ message: 'Geçersiz şifre' });
     }
 
